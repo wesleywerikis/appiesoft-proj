@@ -11,12 +11,12 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-    
+
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public User register(UserDto userDto){
-        if(userRepository.findByEmail(userDto.getEmail()).isPresent()){
+    public User register(UserDto userDto) {
+        if (userRepository.findByEmail(userDto.getEmail()).isPresent()) {
             throw new RuntimeException("Email já cadastrado");
         }
 
@@ -28,5 +28,14 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public User authenticate(String email, String password) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado."));
+
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new RuntimeException("Senha inválida.");
+        }
+        return user;
+    }
 
 }
