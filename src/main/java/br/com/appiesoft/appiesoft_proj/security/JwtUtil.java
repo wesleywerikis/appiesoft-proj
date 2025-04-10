@@ -1,4 +1,4 @@
-package br.com.appiesoft.appiesoft_proj.secutiry;
+package br.com.appiesoft.appiesoft_proj.security;
 
 import java.security.Key;
 import java.util.Date;
